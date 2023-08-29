@@ -1,48 +1,33 @@
-class Color:
+class DrawingAPI:
 
-  def apply_color(self):
+  def draw_circle(self, x, y, radius):
     pass
 
 
-class RedColor(Color):
+class SVGAPI(DrawingAPI):
 
-  def apply_color(self):
-    return "red"
+  def draw_circle(self, x, y, radius):
+    print(f"Drawing SVG circle at ({x}, {y}) with radius {radius}")
 
 
-class BlueColor(Color):
+class CanvasAPI(DrawingAPI):
 
-  def apply_color(self):
-    return "blue"
+  def draw_circle(self, x, y, radius):
+    print(f"Drawing canvas circle at ({x}, {y}) with radius {radius}")
 
 
 class Shape:
 
-  def __init__(self, color):
-    self.color = color
+  def __init__(self, drawing_api):
+    self.drawing_api = drawing_api
 
-  def apply_color(self):
-    pass
-
-
-class Circle(Shape):
-
-  def apply_color(self):
-    return f"This circle is {self.color.apply_color()}."
+  def draw(self, x, y, radius):
+    self.drawing_api.draw_circle(x, y, radius)
 
 
-class Square(Shape):
+circle = Shape(SVGAPI())
+circle.draw(10, 20, 5)  # Output: Drawing SVG circle at (10, 20) with radius 5
 
-  def apply_color(self):
-    return f"This square is {self.color.apply_color()}."
-
-
-# Verwendung
-red_color = RedColor()
-blue_color = BlueColor()
-
-red_circle = Circle(red_color)
-blue_square = Square(blue_color)
-
-print(red_circle.apply_color())  # Ausgabe: This circle is red.
-print(blue_square.apply_color())  # Ausgabe: This square is blue.
+another_circle = Shape(CanvasAPI())
+another_circle.draw(
+    30, 40, 7)  # Output: Drawing canvas circle at (30, 40) with radius 7
